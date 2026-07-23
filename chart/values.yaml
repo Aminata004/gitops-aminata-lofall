@@ -5,6 +5,10 @@ image:
   tag: latest
   pullPolicy: Always
 
+# Permet à Kubernetes de s'authentifier auprès du registre Harbor privé
+imagePullSecrets:
+  - name: harbor-secret
+
 namespace: aminata-lofall
 
 service:
