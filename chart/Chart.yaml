@@ -1,0 +1,5 @@
+apiVersion: v2
+name: aminata-lofall-app
+description: Application web personnalisée déployée via GitOps - Aminata Lo Fall
+version: 1.0.0
+appVersion: "1.0"

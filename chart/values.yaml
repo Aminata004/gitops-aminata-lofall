@@ -1,0 +1,13 @@
+replicaCount: 2
+
+image:
+  repository: aminata-lofall-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+namespace: aminata-lofall
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000

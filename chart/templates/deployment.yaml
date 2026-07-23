@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aminata-lofall-release
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: aminata-lofall-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: aminata-lofall-app
+  template:
+    metadata:
+      labels:
+        app: aminata-lofall-app
+    spec:
+      containers:
+        - name: aminata-lofall-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.image.targetPort | default .Values.service.targetPort }}
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: APP_VERSION
+              value: {{ .Chart.AppVersion | quote }}
