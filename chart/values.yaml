@@ -1,7 +1,7 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
-  repository: 192.168.1.15:80/aminata-lofall/aminata-lofall-app
+  repository: 192.168.1.19:80/aminata-lofall/aminata-lofall-app
   tag: latest
   pullPolicy: Always
 
