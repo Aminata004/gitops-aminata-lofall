@@ -1,8 +1,22 @@
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from flask import Flask
 import socket
 import os
 
+# Configuration OpenTelemetry
+trace.set_tracer_provider(TracerProvider())
+otlp_exporter = OTLPSpanExporter(
+    endpoint=os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT", "http://otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4317"),
+    insecure=True
+)
+trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(otlp_exporter))
+
 app = Flask(__name__)
+FlaskInstrumentor().instrument_app(app)  # ← ligne importante, à ne pas oublier
 
 @app.route('/')
 def home():
